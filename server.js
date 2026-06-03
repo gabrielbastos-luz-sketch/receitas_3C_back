@@ -12,7 +12,8 @@ const sql = new Pool({
 
 const server = Fastify()
 server.register(cors, {
-    origin: '*'
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 })
 
 server.get('/usuarios', async () => {
@@ -32,7 +33,7 @@ server.put('/usuarios/:id', async (request, reply)=>{
     const body = request.body
     const id = request.params.id
     const resultado = await sql.query('update usuario set nome = $1, senha = $2 where id = $3', [body.nome, body.senha, id])
-    return 'cagada feita'
+    reply.status(200).send({masage:'cagada feita'})
 })
 
 server.delete('/usuarios/:id', async (request, reply)=>{
